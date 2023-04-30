@@ -1,0 +1,16 @@
+#game {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+  
+  button {
+    font-size: 2em;
+    padding: 0.5em;
+  }
+  
+  #result {
+    font-size: 2em;
+    margin-top: 20px;
+  }
+  
