@@ -1,42 +1,39 @@
-const buttons = document.querySelectorAll('button');
-const playerSelect = document.getElementById('player');
-const result = document.getElementById('result');
-let currentPlayer;
-let computerPlayer;
 
-function play(event) {
-  const button = event.target;
-  button.textContent = currentPlayer;
-  button.disabled = true;
-  if (checkWin()) {
-    result.textContent = currentPlayer + " ganhou!";
-    buttons.forEach(button => button.disabled = true);
-  } else if (checkTie()) {
-    result.textContent = "Empate!";
+const botoes = document.querySelectorAll('button');
+const resultado = document.getElementById('resultado');
+let jogadorHumano;
+let jogadorComputador;
+
+function jogar(evento) {
+  const botao = evento.target;
+  botao.textContent = jogadorHumano;
+  botao.disabled = true;
+  if (verificarVitoria()) {
+    resultado.textContent = jogadorHumano + " ganhou!";
+    botoes.forEach(botao => botao.disabled = true);
+  } else if (verificarEmpate()) {
+    resultado.textContent = "Empate!";
   } else {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    computerPlay();
+    jogadaComputador();
   }
 }
 
-function computerPlay() {
-  const availableButtons = Array.from(buttons).filter(button => !button.disabled);
-  const randomIndex = Math.floor(Math.random() * availableButtons.length);
-  const randomButton = availableButtons[randomIndex];
-  randomButton.textContent = computerPlayer;
-  randomButton.disabled = true;
-  if (checkWin()) {
-    result.textContent = computerPlayer + " ganhou!";
-    buttons.forEach(button => button.disabled = true);
-  } else if (checkTie()) {
-    result.textContent = "Empate!";
-  } else {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+function jogadaComputador() {
+  const botoesDisponiveis = Array.from(botoes).filter(botao => !botao.disabled);
+  const indiceAleatorio = Math.floor(Math.random() * botoesDisponiveis.length);
+  const botaoAleatorio = botoesDisponiveis[indiceAleatorio];
+  botaoAleatorio.textContent = jogadorComputador;
+  botaoAleatorio.disabled = true;
+  if (verificarVitoria()) {
+    resultado.textContent = jogadorComputador + " ganhou!";
+    botoes.forEach(botao => botao.disabled = true);
+  } else if (verificarEmpate()) {
+    resultado.textContent = "Empate!";
   }
 }
 
-function checkWin() {
-  const rows = [
+function verificarVitoria() {
+  const linhas = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -46,12 +43,27 @@ function checkWin() {
     [0, 4, 8],
     [2, 4, 6]
   ];
-  return rows.some(row => {
-    const [a, b, c] = row;
-    return buttons[a].textContent &&
-           buttons[a].textContent === buttons[b].textContent &&
-           buttons[b].textContent === buttons[c].textContent;
+  return linhas.some(linha => {
+    const [a, b, c] = linha;
+    return botoes[a].textContent &&
+      botoes[a].textContent === botoes[b].textContent &&
+      botoes[b].textContent === botoes[c].textContent;
   });
 }
 
-function checkTie()
+function verificarEmpate() {
+  return Array.from(botoes).every(botao => botao.disabled);
+}
+
+botoes.forEach(botao => botao.addEventListener('click', jogar));
+jogadorHumano = prompt("Escolha 'X' ou 'O' para jogar como").toUpperCase();
+jogadorComputador = jogadorHumano === 'X' ? 'O' : 'X';
+
+if (escolha === 'X') {
+  jogadorHumano = 'X';
+  jogadorComputador = 'O';
+} else if (escolha === 'O') {
+  jogadorHumano = 'O';
+  jogadorComputador = 'X';
+}
+
